@@ -1,1 +1,3 @@
-print("holaaaaaa")
+x = 1
+if (x==1):
+    print("funciona bro")
