@@ -1,1 +1,5 @@
-print("subir a github")
+import cv2 
+import numpy as np
+
+
+print("hola")
