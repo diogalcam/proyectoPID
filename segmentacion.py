@@ -60,9 +60,9 @@ def centroide(imagen):
     sumaY = 0
     cont = 0
     listaResultado = []
-    for x in range(len(contornoImg1)):
-        for y in range(len(contornoImg1[0])):
-            if(contornoImg1[x][y][0] == 255):
+    for x in range(len(imagen)):
+        for y in range(len(imagen[0])):
+            if(imagen[x][y][0] == 255):
                 sumaX += x
                 sumaY += y
                 cont += 1
@@ -97,8 +97,27 @@ def aumentaCentroide(imagen, lista):
 contornoAumentadoImg1 = aumentaCentroide(contornoImg1, centroide(contornoImg1))
 contornoAumentadoImg2 = aumentaCentroide(contornoImg2, centroide(contornoImg2))
 
-cv2.imshow("ff", contornoImg1)
-cv2.imshow("ff2", contornoImg2)
-cv2.imshow("ff3", contornoAumentadoImg1)
-cv2.imshow("ff4", contornoAumentadoImg2)
-cv2.waitKey(0)
+def dibujaCentroideMax(imagen, lista):
+    imagen[lista[0], lista[1]] = 0
+    return imagen
+
+
+filas,columnas,d= contornoImg1.shape
+print(filas,columnas)
+maximo = 0
+listaAux = []
+for x in range(filas):
+    for y in range(columnas):
+        #dento del contorno buscando maxima coordenada (x,y) , no garantiza que pase por centroide , solo probando
+        if 240>=contornoImg1[x][y][0]:
+            listaAux.append((x,y))
+            print('({0}, {0})'.format(x,y))
+maximo = max(listaAux)
+print("--------")
+print("El mayor x,y es: ",maximo)
+
+#cv2.imshow("Contorno Dibujado 1", contornoImg1)
+#cv2.imshow("Contorno Dibujado 2", contornoImg2)
+#cv2.imshow("Centroide aumentado1", contornoAumentadoImg1)
+#cv2.imshow("Centroide aumentado2", contornoAumentadoImg2)
+#cv2.waitKey(0)
