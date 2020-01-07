@@ -1,4 +1,9 @@
 import cv2
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.stats import linregress
+
 
 img = cv2.imread("img/mango-de-frente.png", 1)
 img2 = cv2.imread("img/mango-top.jpg",1)
@@ -28,7 +33,8 @@ for x in range(len(img4)):
         if(img4[x][y][0] < umbral2-15):
             img4[x][y] = 0
         
-
+print(umbral)
+print(umbral2)
 
 def contorno(imagen):
     imagenCopia = imagen.copy()
@@ -81,43 +87,23 @@ def dibujaCentroide(imagen, lista):
 contornoImg1 = dibujaCentroide(contornoImg1, centroide(contornoImg1))
 contornoImg2 = dibujaCentroide(contornoImg2, centroide(contornoImg2))
 
-def aumentaCentroide(imagen, lista):
-    copiaImagen = imagen.copy()
-    copiaImagen[lista[0] -1][lista[1]-1] = 255
-    copiaImagen[lista[0] -1][lista[1]] = 255
-    copiaImagen[lista[0] -1][lista[1]+1] = 255
-    copiaImagen[lista[0]][lista[1]-1] = 255
-    copiaImagen[lista[0]][lista[1]+1] = 255
-    copiaImagen[lista[0] +1][lista[1]-1] = 255
-    copiaImagen[lista[0] +1][lista[1]] = 255
-    copiaImagen[lista[0] +1][lista[1]+1] = 255
-    return copiaImagen
-    
 
-contornoAumentadoImg1 = aumentaCentroide(contornoImg1, centroide(contornoImg1))
-contornoAumentadoImg2 = aumentaCentroide(contornoImg2, centroide(contornoImg2))
-
-def dibujaCentroideMax(imagen, lista):
-    imagen[lista[0], lista[1]] = 0
-    return imagen
+def distanciaEuclidea(lista1,lista2):
+    return math.sqrt((lista2[0]-lista1[0])**2+(lista2[1]-lista1[1])**2)
 
 
-filas,columnas,d= contornoImg1.shape
-print(filas,columnas)
-maximo = 0
 listaAux = []
-for x in range(filas):
-    for y in range(columnas):
-        #dento del contorno buscando maxima coordenada (x,y) , no garantiza que pase por centroide , solo probando
-        if 240>=contornoImg1[x][y][0]:
-            listaAux.append((x,y))
-            print('({0}, {0})'.format(x,y))
-maximo = max(listaAux)
-print("--------")
-print("El mayor x,y es: ",maximo)
+for x in range(len(contornoImg1)):
+    for y in range(len(contornoImg1[0])):
+        if contornoImg1[x][y][0] >= 240:
+            listaAux.append([x,y])
+            
+c1=centroide(contornoImg1)
+
+
+
+
 
 #cv2.imshow("Contorno Dibujado 1", contornoImg1)
 #cv2.imshow("Contorno Dibujado 2", contornoImg2)
-#cv2.imshow("Centroide aumentado1", contornoAumentadoImg1)
-#cv2.imshow("Centroide aumentado2", contornoAumentadoImg2)
 #cv2.waitKey(0)
