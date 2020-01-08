@@ -2,11 +2,13 @@ import cv2
 import os
 
 
+
 directory= r"C:\Users\dioni\git\proyectoPID\img"
 
 img = cv2.imread("img/mango-de-frente.png", 1)
 img2 = cv2.imread("img/mango-top.jpg",1)
-
+manzana = cv2.imread("img/manzana.jpeg",1)
+manzana = cv2.resize(manzana, (520, 520)) 
 img = cv2.resize(img, (320, 320)) 
 
 imgGris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -26,10 +28,13 @@ os.chdir(directory)
 print("Before saving image:")   
 print(os.listdir(directory)) #muestra directorio antes de guardar imagen
 
+
 filename = "gaussImgGris.jpg"
 filename2 = "gaussImg2Gris.jpg"
+filename3 = "manzanaFondoBlanco.jpeg"
 cv2.imwrite(filename, blur)
 cv2.imwrite(filename2,blur2)
+cv2.imwrite(filename3,manzana)
 
 print("After saving image:")   
 print(os.listdir(directory))
