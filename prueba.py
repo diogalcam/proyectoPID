@@ -10,9 +10,11 @@ from pylab import *
 img = cv2.imread("img/mango-de-frente.png", 1)
 img2 = cv2.imread("img/mango-top.jpg",1)
 img3 = cv2.imread("img/orange.jpg",1)
+naranja = cv2.imread("img/naranja-frente", 1)
 img = cv2.resize(img, (320, 320)) 
 cv2.imshow("img", img)
-cv2.imshow("naranja", img3) 
+cv2.imshow("orange", img3) 
+cv2.imshow("naranja", naranja) 
  
 def convierteEscalaGrises(img):
     return cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -88,44 +90,54 @@ def calculoVolumen(puntos):
 gris =  convierteEscalaGrises(img)
 gris2 = convierteEscalaGrises(img2)
 gris3 = convierteEscalaGrises(img3)
+naranjaGris = convierteEscalaGrises(naranja)
 
 ret,thresh = binarizaImagen(gris, 244, 255, 0)
 ret2,thresh2 = binarizaImagen(gris2, 244, 255, 0)
 ret3,thresh3 = binarizaImagen(gris3, 244, 255, 0)
+retNaranja, treshNaranja = binarizaImagen(naranjaGris, 244, 255, 0)
 
 cv2.imshow("thresh", thresh) 
 cv2.imshow("thresh2", thresh2)
 cv2.imshow("thresh3", thresh3)
+cv2.imshow("treshNaranja", treshNaranja)
 
 gauss = filtroGaussiano(thresh, (5,5), 0)
 gauss2 = filtroGaussiano(thresh2, (5,5), 0)
 gauss3 = filtroGaussiano(thresh3, (5,5), 0)
+gaussNaranja = filtroGaussiano(treshNaranja, (5,5), 0)
 
 cv2.imshow("suavizado", gauss)
 cv2.imshow("suavizado2", gauss2)
 cv2.imshow("suavizado3", gauss3)
+cv2.imshow("suavizadoNaranja", gaussNaranja)
 
 canny = detectaBordes(gauss, 0, 255)
 canny2 = detectaBordes(gauss2, 0, 255)
 canny3 = detectaBordes(gauss3, 0, 255)
+cannyNaranja = detectaBordes(gaussNaranja, 0, 255)
+
 
 cv2.imshow("canny", canny)
 cv2.imshow("canny2", canny2)
 cv2.imshow("canny3", canny3)
+cv2.imshow("cannyNaranja", cannyNaranja)
+
 
 (contornos,_) = buscaContornos(canny)
 (contornos2,_) = buscaContornos(canny2)
 (contornos3,_) = buscaContornos(canny3)
-
+(contornosNaranja,_) = buscaContornos(cannyNaranja)
 
 dibujaContornos(img, contornos, -1, (0,0,255), 2)
 dibujaContornos(img2, contornos2, -1, (0,0,255), 2)
 dibujaContornos(img3, contornos3, -1, (0,0,255), 2)
+dibujaContornos(img3, contornosNaranja, -1, (0,0,255), 2)
 
 cv2.imshow("contornos", img)
 cv2.imshow("contornos2", img2)
 cv2.imshow("contornos3", img3)
-
+cv2.imshow("contornosNaranja", contornosNaranja)
 
 
 #momentos y centroide de la imagen de frente
@@ -163,12 +175,23 @@ imagene3=cv2.ellipse(img3,ellipse3,(0,255,0),2)
 cv2.imshow("Imagen de la naranja con elipse",imagene3)
 print("Eje mayor y eje menor",ellipse3[1])
 print("(x,y)",ellipse3[0])
+
+cntNaranja = contornosNaranja[0]
+areaNaranja = cv2.contourArea(cntNaranja)
+print("Area3",areaNaranja)
+ellipseNaranja = cv2.fitEllipse(cntNaranja)
+imageneNaranja=cv2.ellipse(naranja,ellipseNaranja,(0,255,0),2)
+cv2.imshow("Imagen de la naranja con elipse",imageneNaranja)
+print("Eje mayor y eje menor",ellipseNaranja[1])
+print("(x,y)",ellipseNaranja[0])
         
 puntos = puntosEje(canny, ellipse)
 puntos3 = puntosEje(canny3, ellipse3)
+puntosNaranja = puntos(cannyNaranja, ellipseNaranja)
 
 volumen = calculoVolumen(puntos)
 volumen3 = calculoVolumen(puntos3)
+volumenNaranja = calculoVolumen(puntosNaranja)
            
 densidadMango = 10.90
 masa = densidadMango * volumen
@@ -176,6 +199,9 @@ print("La masa estimada del mango esb-->",masa)
 
 densidadNaranja = 11.00
 masaNaranja = densidadNaranja * volumen3
+masaNaranjaBuna = densidadNaranja * volumenNaranja
 print("La masa estimada de la naranja es -->",masaNaranja)
+print("La masa estimada de la naranja es -->",masaNaranjaBuna)
+
 
 cv2.waitKey(0)
