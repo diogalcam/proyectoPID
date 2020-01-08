@@ -5,6 +5,7 @@ import numpy as np
 from pylab import *
 
 
+
 # Cargamos la imagen
 img = cv2.imread("img/mango-de-frente.png", 1)
 img2 = cv2.imread("img/mango-top.jpg",1)
@@ -65,12 +66,14 @@ cv2.imshow("Image", canny)
 cv2.imshow("Image2", canny2)
 
 
-for i, c in enumerate(contornos):
-    print(c)
-    (x,y),(MA,ma),angle = cv2.fitEllipse(c)
-    print(MA)
-    print(ma)
-    print(angle)
-    prueba=cv2.circle(centroide,(int(x),int(y)),5,(255,255,255),-1)
-    cv2.imshow("prueba",prueba)
-    cv2.waitKey(0)
+cnt = contornos[0]
+area = cv2.contourArea(cnt)
+print("Area",area)
+ellipse = cv2.fitEllipse(cnt)
+imagene=cv2.ellipse(img,ellipse,(0,255,0),2)
+cv2.imshow("imggg",imagene)
+print("Eje mayor y eje menor",ellipse[1])
+print("(x,y)",ellipse[0])
+
+
+cv2.waitKey(0)
