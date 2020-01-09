@@ -177,6 +177,10 @@ cv2.imshow("Image", canny)
 cv2.imshow("Image2", canny2)
 
 
+
+
+
+
 cnt = contornos[0]
 area = cv2.contourArea(cnt)
 print("Area",area)
@@ -204,7 +208,47 @@ cv2.imshow("Imagen de la manzana con elipse",imagenManzana)
 print("Eje mayor y eje menor",ellipseManzana[1])
 print("(x,y)",ellipseManzana[0])
 
+def redondez(contorno):
+    cnt= contorno[0]
+    area = cv2.contourArea(cnt)
+    perimetro = cv2.arcLength(cnt, True)
+    print(area, perimetro)
+    resultado = 4* math.pi *(area / perimetro)
+    return resultado
+
+print("La redondez es", redondez(contornos))
+
+def excentricidad(ellipse):
+    ejeMayor = ellipse[1][0]
+    ejeMenor = ellipse[1][1]
+    resultado = math.sqrt(math.pow(ejeMayor, 2) * math.pow(ejeMenor, 2)) / ejeMayor
+    return resultado
+
+print("La excentricidad es", excentricidad(ellipseManzana))
+
+def tipoDeFruta(redondez, excentricidad):
+    tipo = 0
+    if(redondez < 680):
+        tipo = "Manzana"
+    elif(redondez > 680 and redondez < 820):
+        tipo = "Mango"
+    else:
+        tipo = "Naranja"
+    return tipo
         
+        
+rMango = redondez(contornos)
+eMango = excentricidad(ellipse)
+rNaranja = redondez(contornos3)
+eNaranja = excentricidad(ellipse3)
+rManzana = redondez(contornosManzana)
+eManzana = excentricidad(ellipseManzana)
+print("La fruta es:", tipoDeFruta(rMango, eMango))
+print("La fruta es:", tipoDeFruta(rNaranja, eNaranja))
+print("La fruta es:", tipoDeFruta(rManzana, eManzana))
+
+
+
 puntos = puntosEje(canny, ellipse)
 puntos3 = puntosEje(canny3, ellipse3)
 puntosManzana = puntosEje(cannyManzana,ellipseManzana)
