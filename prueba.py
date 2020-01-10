@@ -86,43 +86,52 @@ def calculoVolumen(puntos):
 # Cargamos la imagen
 img = cv2.imread("img/mango-de-frente.png", 1)
 img2 = cv2.imread("img/mango-top.jpg",1)
-img3 = cv2.imread("img/orange.jpg",1)
+img3 = cv2.imread("img/naranja--frente.jpg",1)
+img4 = cv2.imread("img/naranja--arriba.jpg", 1)
+img3 = cv2.resize(img3, (800, 600))
+img4 = cv2.resize(img4, (800, 600))
 naranja = cv2.imread("img/naranja-frente.jpg", 1)
 manzana = cv2.imread("img/manzanaFondoBlancoo.png",1)
-img = cv2.resize(img, (320, 320)) 
+
 manzana = cambiaFondoBlanco(manzana)
 cv2.imshow("img", img)
 cv2.imshow("orange", img3) 
+cv2.imshow("orange arriba", img4) 
 cv2.imshow("manzana",manzana)
 
 
 gris =  convierteEscalaGrises(img)
 gris2 = convierteEscalaGrises(img2)
 gris3 = convierteEscalaGrises(img3)
+gris4 = convierteEscalaGrises(img4)
 grisManzana = convierteEscalaGrises(manzana)
 
 ret,thresh = binarizaImagen(gris, 244, 255, 0)
 ret2,thresh2 = binarizaImagen(gris2, 244, 255, 0)
 ret3,thresh3 = binarizaImagen(gris3, 244, 255, 0)
-ret4,threshManzana = binarizaImagen(grisManzana, 220, 255, 0)
+ret4,thresh4 = binarizaImagen(gris4, 244, 255, 0)
+retM,threshManzana = binarizaImagen(grisManzana, 220, 255, 0)
 
 
 
 cv2.imshow("thresh", thresh) 
 cv2.imshow("thresh2", thresh2)
 cv2.imshow("thresh3", thresh3)
+cv2.imshow("thresh4", thresh4)
 cv2.imshow("threshManzana", threshManzana)
 
 
 gauss = filtroGaussiano(thresh, (5,5), 0)
 gauss2 = filtroGaussiano(thresh2, (5,5), 0)
-gauss3 = filtroGaussiano(thresh3, (5,5), 0)
+gauss3 = filtroGaussiano(thresh3, (7,7), 0)
+gauss4 = filtroGaussiano(thresh4, (7,7), 0)
 gaussManzana = filtroGaussiano(threshManzana, (5,5), 0)
 
 
 cv2.imshow("suavizado", gauss)
 cv2.imshow("suavizado2", gauss2)
 cv2.imshow("suavizado3", gauss3)
+cv2.imshow("suavizado4", gauss4)
 cv2.imshow("suavizadoManzana", gaussManzana)
 
 
@@ -130,6 +139,7 @@ cv2.imshow("suavizadoManzana", gaussManzana)
 canny = detectaBordes(gauss, 0, 255)
 canny2 = detectaBordes(gauss2, 0, 255)
 canny3 = detectaBordes(gauss3, 0, 255)
+canny4 = detectaBordes(gauss4, 0, 255)
 cannyManzana = detectaBordes(gaussManzana, 0, 255)
 
 
@@ -137,24 +147,26 @@ cannyManzana = detectaBordes(gaussManzana, 0, 255)
 cv2.imshow("canny", canny)
 cv2.imshow("canny2", canny2)
 cv2.imshow("canny3", canny3)
+cv2.imshow("canny4", canny4)
 cv2.imshow("cannyManzana", cannyManzana)
-
-
 
 (contornos,_) = buscaContornos(canny)
 (contornos2,_) = buscaContornos(canny2)
 (contornos3,_) = buscaContornos(canny3)
+(contornos4,_) = buscaContornos(canny4)
 (contornosManzana,_) = buscaContornos(cannyManzana)
 
 
 dibujaContornos(img, contornos, -1, (0,0,255), 2)
 dibujaContornos(img2, contornos2, -1, (0,0,255), 2)
 dibujaContornos(img3, contornos3, -1, (0,0,255), 2)
+dibujaContornos(img4, contornos4, -1, (0,0,255), 2)
 dibujaContornos(manzana, contornosManzana, -1, (0,0,255), 2)
 
 cv2.imshow("contornos", img)
 cv2.imshow("contornos2", img2)
 cv2.imshow("contornos3", img3)
+cv2.imshow("contornos4", img4)
 cv2.imshow("contornosManzana", manzana)
 
 
@@ -191,13 +203,34 @@ print("Eje mayor y eje menor",ellipse[1])
 print("(x,y)",ellipse[0])
 
 cnt3 = contornos3[0]
+cnt4 = contornos4[0]
 area3 = cv2.contourArea(cnt3)
+area4 = cv2.contourArea(cnt4)
 print("Area3",area3)
 ellipse3 = cv2.fitEllipse(cnt3)
 imagene3=cv2.ellipse(img3,ellipse3,(0,255,0),2)
+ellipse4 = cv2.fitEllipse(cnt4)
+imagene4=cv2.ellipse(img4,ellipse4,(0,255,0),2)
 cv2.imshow("Imagen de la naranja con elipse",imagene3)
 print("Eje mayor y eje menor",ellipse3[1])
 print("(x,y)",ellipse3[0])
+cv2.imshow("Imagen de la naranja con elipse",imagene4)
+print("Eje mayor y eje menor",ellipse4[1])
+print("(x,y)",ellipse4[0])
+
+
+def calculoVolumenes(ejes1, ejes2):
+    A = ejes1[0]
+    B = ejes1[1]
+    C = ejes2[0]
+    D = ejes2[1]
+    C = (B / D) * C
+    calculo = 4*math.pi*A*B*C
+    return calculo*math.pow(10, -6)
+
+volNaranja = calculoVolumenes(ellipse3[1], ellipse4[1])
+print("Volumen de la naranja", volNaranja)
+print("-------------------------------------")
 
 cntManzana = contornosManzana[0]
 areaManzana = cv2.contourArea(cntManzana)
@@ -250,12 +283,12 @@ print("La fruta es:", tipoDeFruta(rManzana, eManzana))
 
 
 puntos = puntosEje(canny, ellipse)
-puntos3 = puntosEje(canny3, ellipse3)
+#puntos3 = puntosEje(canny3, ellipse3)
 puntosManzana = puntosEje(cannyManzana,ellipseManzana)
 
 
 volumen = calculoVolumen(puntos)
-volumen3 = calculoVolumen(puntos3)
+#volumen3 = calculoVolumen(puntos3)
 volumenManzana = calculoVolumen(puntosManzana)
            
 densidadMango = 10.90
@@ -263,8 +296,8 @@ masa = densidadMango * volumen
 print("La masa estimada del mango esb-->",masa)
 
 densidadNaranja = 11.00
-masaNaranja = densidadNaranja * volumen3
-print("La masa estimada de la naranja es -->",masaNaranja)
+#masaNaranja = densidadNaranja * volumen3
+#print("La masa estimada de la naranja es -->",masaNaranja)
 
 densidadManzana = 10.00
 masaManzana = densidadManzana * volumenManzana
