@@ -244,10 +244,10 @@ volumenMango = calculoVolumenes(ellipse[1], ellipse2[1])
 print("El volumen en pixeles cubicos es:", volumenMango)
 
 
-densidadMediaNaranja = 2.34*(math.pow(10, -6))
+densidadMediaNaranja = 2.35*(math.pow(10, -6))
 print("La masa de la naranja es: ", volumenMango * densidadMediaNaranja)
 
-masaMango = 318
+masaMango = 316
 
 print("La densidad del mango es ", masaMango/volumenMango, " gr/pixel cubico")
 
