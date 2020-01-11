@@ -247,7 +247,7 @@ print("El volumen en pixeles cubicos es:", volumenMango)
 densidadMediaNaranja = 2.34*(math.pow(10, -6))
 print("La masa de la naranja es: ", volumenMango * densidadMediaNaranja)
 
-masaMango = 317
+masaMango = 361
 
 print("La densidad del mango es ", masaMango/volumenMango, " gr/pixel cubico")
 
