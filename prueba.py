@@ -84,8 +84,8 @@ def calculoVolumen(puntos):
 
 
 # Cargamos la imagen
-img = cv2.imread("img/naranja2-frente.jpg", 1)
-img2 = cv2.imread("img/naranja2-arriba.jpg",1)
+img = cv2.imread("img/naranja1-frente.jpg", 1)
+img2 = cv2.imread("img/naranja1-arriba.jpg",1)
 img3 = cv2.imread("img/naranja--frente.jpg",1)
 img4 = cv2.imread("img/naranja--arriba.jpg", 1)
 img = cv2.resize(img, (800, 600))
@@ -235,7 +235,7 @@ def calculoVolumenes(ejes1, ejes2):
     B = int(ejes1[1])
     C = int(ejes2[0])
     D = int(ejes2[1])
-    C = (B / D) * C
+    #C = (B / D) * C
     calculo = 4*math.pi*A*B*C
     print(A,B,C,D)
     return calculo
@@ -247,7 +247,7 @@ print("El volumen en pixeles cubicos es:", volumenMango)
 densidadMediaNaranja = 2.34*(math.pow(10, -6))
 print("La masa de la naranja es: ", volumenMango * densidadMediaNaranja)
 
-masaMango = 361
+masaMango = 360
 
 print("La densidad del mango es ", masaMango/volumenMango, " gr/pixel cubico")
 
