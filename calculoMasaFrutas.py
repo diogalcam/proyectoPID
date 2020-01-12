@@ -203,7 +203,7 @@ def programa():
             #mostramos los contornos de cada imagen
             cv2.imshow("contornos", imgMangoFrente1)
             cv2.imshow("contornos2", imgMangoArriba1)
-            
+            cv2.waitKey(0)
             
             mangoElipse1=cv2.ellipse(imgMangoFrente1,calculaElipse(contornos, imgMangoFrente1),(0,255,0),2)
             cv2.imshow("Imagen del mango1 con elipse",mangoElipse1)
@@ -235,7 +235,7 @@ def programa():
             volumen = calculoVolumenes(calculaElipse(contornos, imgMangoFrente1)[1],calculaElipse(contornos2, imgMangoArriba1)[1])
             masa = volumen * densidad
             media = redondez1 * excentricidad1
-            print(redondez1, excentricidad1, media)
+            print()
             print("La fruta proporcionada es:", fruta)
             print("El volumen es:", volumen, "pixeles cubicos")
             print("La densidad es:", densidad, "gramos/pixeles cubicos")
@@ -305,7 +305,7 @@ def programa():
             #mostramos los contornos de cada imagen
             cv2.imshow("contornos3", imgMangoFrente2)
             cv2.imshow("contornos4", imgMangoArriba2)
-            
+            cv2.waitKey(0)
             
             mangoElipse3=cv2.ellipse(imgMangoFrente2,calculaElipse(contornos3, imgMangoFrente2),(0,255,0),2)
             cv2.imshow("Imagen del mango2 con elipse",mangoElipse3)
@@ -332,7 +332,6 @@ def programa():
             masa2 = volumen2 * densidad2
             media2 = redondez2 * excentricidad2
             print()
-            print("Redondez,excentricidad y media->",redondez2, excentricidad2, media2)
             print("La fruta proporcionada es:", fruta2)
             print("El volumen es:", volumen2, "pixeles cubicos")
             print("La densidad es:", densidad2, "gramos/pixeles cubicos")
@@ -400,7 +399,7 @@ def programa():
             #mostramos los contornos de cada imagen
             cv2.imshow("contornos5", imgMangoFrente3)
             cv2.imshow("contornos6", imgMangoArriba3)
-            
+            cv2.waitKey(0)
             
             mangoElipse5=cv2.ellipse(imgMangoFrente3,calculaElipse(contornos5, imgMangoFrente3),(0,255,0),2)
             cv2.imshow("Imagen del mango3 con elipse",mangoElipse5)
@@ -427,7 +426,7 @@ def programa():
             masa3 = volumen3 * densidad3
             media3 = redondez3 * excentricidad3
             
-            print("Redondez,excentricidad y media->",redondez3, excentricidad3, media3)
+            
             print("La fruta proporcionada es:", fruta3)
             print("El volumen es:", volumen3, "pixeles cubicos")
             print("La densidad es:", densidad3, "gramos/pixeles cubicos")
@@ -496,7 +495,7 @@ def programa():
             #mostramos los contornos de cada imagen
             cv2.imshow("contornos7", imgManzanaFrente1)
             cv2.imshow("contornos8", imgManzanaArriba1)
-            
+            cv2.waitKey(0)
             
             mangoElipse7=cv2.ellipse(imgManzanaFrente1,calculaElipse(contornos7, imgManzanaFrente1),(0,255,0),2)
             cv2.imshow("Imagen de la manzana con elipse",mangoElipse7)
@@ -523,7 +522,7 @@ def programa():
             masa4 = volumen4 * densidad4
             media4 = redondez4 * excentricidad4
             
-            print("Redondez,excentricidad y media->",redondez4, excentricidad4, media4)
+            
             print("La fruta proporcionada es:", fruta4)
             print("El volumen es:", volumen4, "pixeles cubicos")
             print("La densidad es:", densidad4, "gramos/pixeles cubicos")
@@ -591,7 +590,7 @@ def programa():
             #mostramos los contornos de cada imagen
             cv2.imshow("contornos9", imgManzanaFrente2)
             cv2.imshow("contornos10", imgManzanaArriba2)
-            
+            cv2.waitKey(0)
             
             manzanaElipse=cv2.ellipse(imgManzanaFrente2,calculaElipse(contornos9, imgManzanaFrente2),(0,255,0),2)
             cv2.imshow("Imagen de la manzana2 con elipse",manzanaElipse)
@@ -618,7 +617,7 @@ def programa():
             masa5 = volumen5 * densidad5
             media5 = redondez5 * excentricidad5
             
-            print("Redondez,excentricidad y media->",redondez5, excentricidad5, media5)
+            
             print("La fruta proporcionada es:", fruta5)
             print("El volumen es:", volumen5, "pixeles cubicos")
             print("La densidad es:", densidad5, "gramos/pixeles cubicos")
@@ -686,7 +685,7 @@ def programa():
             #mostramos los contornos de cada imagen
             cv2.imshow("contornos11", imgManzanaFrente3)
             cv2.imshow("contornos12", imgManzanaArriba3)
-            
+            cv2.waitKey(0)
             
             manzanaElipse=cv2.ellipse(imgManzanaFrente3,calculaElipse(contornos11, imgManzanaFrente3),(0,255,0),2)
             cv2.imshow("Imagen de la manzana2 con elipse",manzanaElipse)
@@ -713,7 +712,7 @@ def programa():
             masa6 = volumen6 * densidad6
             media6 = redondez6 * excentricidad6
             
-            print("Redondez,excentricidad y media->",redondez5, excentricidad5, media5)
+            
             print("La fruta proporcionada es:", fruta5)
             print("El volumen es:", volumen5, "pixeles cubicos")
             print("La densidad es:", densidad5, "gramos/pixeles cubicos")
@@ -781,7 +780,7 @@ def programa():
             #mostramos los contornos de cada imagen
             cv2.imshow("contornos9", imgNaranjaFrente1)
             cv2.imshow("contornos10", imgNaranjaArriba1)
-            
+            cv2.waitKey(0)
             
             naranjaElipse=cv2.ellipse(imgNaranjaFrente1,calculaElipse(contornos9, imgNaranjaFrente1),(0,255,0),2)
             cv2.imshow("Imagen de la naranja con elipse",naranjaElipse)
@@ -808,7 +807,7 @@ def programa():
             masa5 = volumen5 * densidad5
             media5 = redondez5 * excentricidad5
             
-            print("Redondez,excentricidad y media->",redondez5, excentricidad5, media5)
+            
             print("La fruta proporcionada es:", fruta5)
             print("El volumen es:", volumen5, "pixeles cubicos")
             print("La densidad es:", densidad5, "gramos/pixeles cubicos")
@@ -876,7 +875,7 @@ def programa():
             #mostramos los contornos de cada imagen
             cv2.imshow("contornos9", imgNaranjaFrente2)
             cv2.imshow("contornos10", imgNaranjaArriba2)
-            
+            cv2.waitKey(0)
             
             naranjaElipse=cv2.ellipse(imgNaranjaFrente2,calculaElipse(contornos9, imgNaranjaFrente2),(0,255,0),2)
             cv2.imshow("Imagen de la naranja2 con elipse",naranjaElipse)
@@ -903,7 +902,7 @@ def programa():
             masa5 = volumen5 * densidad5
             media5 = redondez5 * excentricidad5
             
-            print("Redondez,excentricidad y media->",redondez5, excentricidad5, media5)
+           
             print("La fruta proporcionada es:", fruta5)
             print("El volumen es:", volumen5, "pixeles cubicos")
             print("La densidad es:", densidad5, "gramos/pixeles cubicos")
@@ -971,7 +970,7 @@ def programa():
             #mostramos los contornos de cada imagen
             cv2.imshow("contornos9", imgNaranjaFrente3)
             cv2.imshow("contornos10", imgNaranjaArriba3)
-            
+            cv2.waitKey(0)
             
             naranjaElipse=cv2.ellipse(imgNaranjaFrente3,calculaElipse(contornos9, imgNaranjaFrente3),(0,255,0),2)
             cv2.imshow("Imagen de la naranja3 con elipse",naranjaElipse)
@@ -999,7 +998,7 @@ def programa():
             masa5 = volumen5 * densidad5
             media5 = redondez5 * excentricidad5
             
-            print("Redondez,excentricidad y media->",redondez5, excentricidad5, media5)
+            
             print("La fruta proporcionada es:", fruta5)
             print("El volumen es:", volumen5, "pixeles cubicos")
             print("La densidad es:", densidad5, "gramos/pixeles cubicos")
