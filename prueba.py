@@ -84,7 +84,7 @@ def calculoVolumen(puntos):
 
 
 # Cargamos la imagen
-img = cv2.imread("img/mango2-frentee.jpg", 1)
+img = cv2.imread("img/mango2-frente.jpg", 1)
 img2 = cv2.imread("img/mango2-arribaa.jpg",1)
 img3 = cv2.imread("img/naranja--frente.jpg",1)
 img4 = cv2.imread("img/naranja--arriba.jpg", 1)
