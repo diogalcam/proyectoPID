@@ -1,6 +1,9 @@
 import cv2
 import math
 import msvcrt
+import time
+
+
 
 def cambiaFondoBlanco(imgMangoFrente1):
     for x in range(len(imgMangoFrente1)):
@@ -21,8 +24,8 @@ def filtroGaussiano(imgMangoFrente1Binarizada,mask,y):
 def detectaBordes(imgMangoFrente1Suavizado,u1,u2):
     return cv2.Canny(imgMangoFrente1Suavizado,u1,u2)
 
-def buscaContornos(imgCanny):
-    return cv2.findContours(imgCanny.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+def buscaContornos(imgMangoFrente1Borde):
+    return cv2.findContours(imgMangoFrente1Borde.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 def dibujaContornos(imgMangoFrente1Normal,imgMangoFrente1Contorno,u1,l,f1):
     return cv2.drawContours(imgMangoFrente1Normal,imgMangoFrente1Contorno,u1,l,f1)
@@ -119,211 +122,204 @@ def densidadFruta(fruta):
     else:
         densidad = 2.17*math.pow(10, -6)
     return densidad
+print("""**************Instrucciones de uso*******************
+Inicialmente se puede escoger entre una imagen precargada manualmente o una de nuestra base de datos:
+    - Si escoge la opcion de utilizar una imagen precargada debera seleccionar la opcion 0 en el teclado y proporcionar el nombre de la imagen de frente y de arriba, en ese orden
+    - Si escoge una opcion de nuestra base de datos simplemtente debera teclear el numero que desee
+
+Funcionamiento del mismo:
+    1. En consola ira apareciendo una explicacion paso a paso que esta realizando el algoritmo
+    2. Se abriran 2 ventanas con las imagenes de frente y desde arriba mostrando esos resultados
+    3. Para que el algoritmo avance de paso a paso debera cerrar las ventanas de las imagenes que se han abierto\n\n""")
+
+
 
 def menu():
-    """Funcion que Muestra el Menu"""
-    print("""************
-
-************
-Selecciona la fruta para calcular su masa
-1)  mango
-2)  mango2
-3)  mango3
-4)  manzana
-5)  manzana2
-6)  manzana3
-7)  naranja
-8)  naranja2
-9)  naranja3
-
-""")
     
-#base de datos fija
-imgMangoFrente1 = cv2.imread("img/mango-frente.jpg", 1)
-imgMangoArriba1 = cv2.imread("img/mango-arriba.jpg",1)
-imgMangoFrente1 = cv2.resize(imgMangoFrente1, (800, 600))
-imgMangoArriba1 = cv2.resize(imgMangoArriba1, (800, 600))
-imgMangoFrente2 = cv2.imread("img/mango2-frente.jpg", 1)
-imgMangoArriba2 = cv2.imread("img/mango2-arriba.jpg",1)
-imgMangoFrente2 = cv2.resize(imgMangoFrente2, (800, 600))
-imgMangoArriba2 = cv2.resize(imgMangoArriba2, (800, 600))
-imgMangoFrente3 = cv2.imread("img/mango3-frente.jpg", 1)
-imgMangoArriba3 = cv2.imread("img/mango3-arriba.jpg",1)  
-imgMangoFrente3 = cv2.resize(imgMangoFrente3, (800, 600))
-imgMangoArriba3 = cv2.resize(imgMangoArriba3, (800, 600))
-imgManzanaFrente1 = cv2.imread("img/manzana1-frente.jpg", 1)
-imgManzanaArriba1 = cv2.imread("img/manzana1-arriba.jpg",1)
-imgManzanaFrente1 = cv2.resize(imgManzanaFrente1, (800, 600))
-imgManzanaArriba1 = cv2.resize(imgManzanaArriba1, (800, 600))
-imgManzanaFrente2 = cv2.imread("img/manzana2-frente.jpg", 1)
-imgManzanaArriba2 = cv2.imread("img/manzana2-arriba.jpg",1)
-imgManzanaFrente2 = cv2.resize(imgManzanaFrente2, (800, 600))
-imgManzanaArriba2 = cv2.resize(imgManzanaArriba2, (800, 600))
-imgManzanaFrente3 = cv2.imread("img/manzana3-frente.jpg", 1)
-imgManzanaArriba3 = cv2.imread("img/manzana3-arriba.jpg",1)
-imgManzanaFrente3 = cv2.resize(imgManzanaFrente3, (800, 600))
-imgManzanaArriba3 = cv2.resize(imgManzanaArriba3, (800, 600))
-imgNaranjaFrente1 = cv2.imread("img/naranja1-frente.jpg", 1)
-imgNaranjaArriba1 = cv2.imread("img/naranja1-arriba.jpg",1)
-imgNaranjaFrente1 = cv2.resize(imgNaranjaFrente1, (800, 600))
-imgNaranjaArriba1 = cv2.resize(imgNaranjaArriba1, (800, 600))
-imgNaranjaFrente2 = cv2.imread("img/naranja2-frente.jpg", 1)
-imgNaranjaArriba2 = cv2.imread("img/naranja2-arriba.jpg",1)
-imgNaranjaFrente2 = cv2.resize(imgNaranjaFrente2, (800, 600))
-imgNaranjaArriba2 = cv2.resize(imgNaranjaArriba2, (800, 600))
-imgNaranjaFrente3 = cv2.imread("img/naranja3-frente.jpg", 1)
-imgNaranjaArriba3 = cv2.imread("img/naranja3-arriba.jpg",1)
-imgNaranjaFrente3 = cv2.resize(imgNaranjaFrente3, (800, 600))
-imgNaranjaArriba3 = cv2.resize(imgNaranjaArriba3, (800, 600))
+    print("************************\n",
+"Selecciona la fruta para calcular su masa\n",
+"0) Otra opcion\n",
+"1) Mango1\n",
+"2) Mango2\n",
+"3) Mango3\n",
+"4) Manzana1\n",
+"5) Manzana2\n",
+"6) Manzana3\n",
+"7) Naranja1\n",
+"8) Naranja2\n",
+"9) Naranja3\n"
 
+)
 
-def programaCompleto(img,img2,pesoReal):
-    
-            
-    #muestra imagen de frente y arriba
-    cv2.imshow("img de frente", img)
-    cv2.imshow("img de arriba", img2)
-    cv2.waitKey(0)
-            
-    #convierte escala de grises
-    gris =  convierteEscalaGrises(img)
-    gris2 = convierteEscalaGrises(img2)
-            
-    #binariza la imagen con umbral minimo y maximo
-    ret,thresh = binarizaImagen(gris, 244, 255, 0)
-    ret2,thresh2 = binarizaImagen(gris2, 244, 255, 0)       
-            
-    #muestra mangoElipse1s binarizadas
-    cv2.imshow("thresh", thresh) 
-    cv2.imshow("thresh2", thresh2)
-            
-    cv2.waitKey(0)
-            
-    #aplicamos filtros gaussianos para eliminar el posible ruido
-    gauss = filtroGaussiano(thresh, (5,5), 0)
-    gauss2 = filtroGaussiano(thresh2, (5,5), 0)  
-            
-    #muestra mangoElipse1s con el filtro de gauss aplicados
-    cv2.imshow("suavizado", gauss)
-    cv2.imshow("suavizado2", gauss2)
-            
-    cv2.waitKey(0)
-            
-    #Aplicamos Canny para la deteccion de los bordes 
-    canny = detectaBordes(gauss, 0, 255)
-    canny2 = detectaBordes(gauss2, 0, 255)
-            
-    #mostramos las mangoElipse1s aplicadas con Canny
-    cv2.imshow("canny", canny)
-    cv2.imshow("canny2", canny2) 
-            
-    cv2.waitKey(0)
-    #Buscamos los posibles contornos , ya que , que sea un borde no quiere
-    #decir que sea un contorno
-    (contornos,_) = buscaContornos(canny)
-    (contornos2,_) = buscaContornos(canny2)
-            
-    #Dibujamos contornos 
-    dibujaContornos(img, contornos, -1, (0,0,255), 2)
-    dibujaContornos(img2, contornos2, -1, (0,0,255), 2)
-            
-    #mostramos los contornos de cada imagen
-    cv2.imshow("contornos", img)
-    cv2.imshow("contornos2", img2)
-    cv2.waitKey(0)
-            
-    mangoElipse1=cv2.ellipse(img,calculaElipse(contornos, img),(0,255,0),2)
-    cv2.imshow("Imagen con elipse",mangoElipse1)
-    mangoElipse2=cv2.ellipse(img2,calculaElipse(contornos2, img2),(0,255,0),2)
-    cv2.imshow("Imagen desde arriba con elipse",mangoElipse2)
-            
-    cv2.waitKey(0)
-    #CalculaElipse devuelve eje mayor y menor , y tambien (x,y)
-    print() 
-    print("Eje mayor y eje menor",calculaElipse(contornos, img)[1])
-    print("(x,y)",calculaElipse(contornos, img)[0])  
-    print()
-    print("Eje mayor y eje menor desde arriba",calculaElipse(contornos2, img2)[1])
-    print("(x,y)",calculaElipse(contornos2, img2)[0])
-    print()
-            
-    #calculamos la redondez y excentricidad para luego hacer una media y detectar el tipo de fruta
-    redondez1 = redondez(contornos)
-    excentricidad1 = excentricidad(calculaElipse(contornos, img))
-            
-    #miramos que tipo de fruta es
-    fruta = tipoDeFruta(redondez1, excentricidad1)
-            
-    #el calculo de la densidad es la media de las densidades de cada tipo de fruta correspondiente
-    #la densidad es el numero de gramos que tiene un pixel cubico de media
-    densidad = densidadFruta(fruta)
-            
-    #volumen en pixeles cubicos ( contar los pixeles que ocupa cada fruta )
-    volumen = calculoVolumenes(calculaElipse(contornos, img)[1],calculaElipse(contornos2, img2)[1])
-    masa = volumen * densidad
-    media = redondez1 * excentricidad1
-    print()
-    print("La fruta proporcionada es:", fruta)
-    print("El volumen es:", volumen, "pixeles cubicos")
-    print("La densidad es:", densidad, "gramos/pixeles cubicos")
-    print("La masa de es:", masa,"gramos")
-            
-    #calculo del error cometido
-    print("La masa real es:",pesoReal,"gramos")
-    print("Error sobre el peso real y el calculado->",abs(pesoReal-masa),"gramos")         
 
 
 def programa():
-    aux = 0
+    aux = 1000
     menu()
     aux = int(input("Selecione Opcion\n"))
-    while(aux>0 and aux<=9):
-        if aux==1:
-            print()
-            programaCompleto(imgMangoFrente1, imgMangoArriba1, 583)
-            aux = int(input("Selecione Opcion\n"))           
+    while(aux>=0 and aux<=9):
+        imagenFrente = 0
+        imagenArriba = 0
+        if aux==0:
+            print("Las imagenes deben estar contenidas en la carpeta llamada 'img' y estar en formato jpg")
+            nombreImgFrente = input("Introduzca el nombre de la imagen de frente\n")
+            nombreImgArriba = input("Introduzca el nombre de la imagen de arriba\n")
+            n0 = "img/{}.jpg".format(nombreImgFrente)
+            n1 = "img/{}.jpg".format(nombreImgArriba)
+            imagenFrente = cv2.imread(n0,1)
+            imagenArriba = cv2.imread(n1,1)
+            
+        elif aux==1:
+            imagenFrente = cv2.imread("img/mango-frente.jpg", 1)
+            imagenArriba = cv2.imread("img/mango-arriba.jpg",1)
+            
+        elif aux==2:
+            imagenFrente = cv2.imread("img/mango2-frente.jpg", 1)
+            imagenArriba = cv2.imread("img/mango2-arriba.jpg",1)
+            
+        elif aux==3:
+            imagenFrente = cv2.imread("img/mango3-frente.jpg", 1)
+            imagenArriba = cv2.imread("img/mango3-arriba.jpg",1)
         
-        elif(aux==2):
-            print()
-            programaCompleto(imgMangoFrente2, imgMangoArriba2, 525)
-            aux = int(input("Selecione Opcion\n"))    
-        
-        elif(aux==3):         
-            print()
-            programaCompleto(imgMangoFrente3, imgMangoArriba3, 443)
-            aux = int(input("Selecione Opcion\n"))
-
         elif aux==4:
-            print()
-            programaCompleto(imgManzanaFrente1, imgManzanaArriba1, 214)
-            aux = int(input("Selecione Opcion\n"))
+            imagenFrente = cv2.imread("img/manzana1-frente.jpg", 1)
+            imagenArriba = cv2.imread("img/manzana1-arriba.jpg",1)
             
         elif aux==5:
-            print()
-            programaCompleto(imgManzanaFrente2, imgManzanaArriba2, 219)
-            aux = int(input("Selecione Opcion\n"))
-            
-        elif aux==6:    
-            print()
-            programaCompleto(imgManzanaFrente3, imgManzanaArriba3, 245)
-            aux = int(input("Selecione Opcion\n"))
+            imagenFrente = cv2.imread("img/manzana2-frente.jpg", 1)
+            imagenArriba = cv2.imread("img/manzana2-arriba.jpg",1)
+        
+        elif aux==6:
+            imagenFrente = cv2.imread("img/manzana3-frente.jpg", 1)
+            imagenArriba = cv2.imread("img/manzana3-arriba.jpg",1)
         
         elif aux==7:
-            print()
-            programaCompleto(imgNaranjaFrente1, imgNaranjaArriba1, 317)
-            aux = int(input("Selecione Opcion\n"))
+            imagenFrente = cv2.imread("img/naranja1-frente.jpg", 1)
+            imagenArriba = cv2.imread("img/naranja1-arriba.jpg",1)
             
         elif aux==8:
-            print()
-            programaCompleto(imgNaranjaFrente2, imgNaranjaArriba2, 360)
-            aux = int(input("Selecione Opcion\n"))
+            imagenFrente = cv2.imread("img/naranja2-frente.jpg", 1)
+            imagenArriba = cv2.imread("img/naranja2-arriba.jpg",1)
             
         elif aux==9:
-            print()
-            programaCompleto(imgNaranjaFrente3, imgNaranjaArriba3, 318)
-            aux = int(input("Selecione Opcion\n"))
+            imagenFrente = cv2.imread("img/naranja3-frente.jpg", 1)
+            imagenArriba = cv2.imread("img/naranja3-arriba.jpg",1)   
+            
+            
+        imagenFrente = cv2.resize(imagenFrente, (800, 600))
+        imagenArriba = cv2.resize(imagenArriba, (800, 600))
+        
+        print("=====================================================================")
+        #muestra imagen de frente y arriba
+        print("Paso 1) Se muestran las imagenes seleccionadas")
+        cv2.imshow("Imagen de frente", imagenFrente)
+        cv2.imshow("Imagen de arriba", imagenArriba)
+        
+        cv2.waitKey(0)
+                
+        #convierte escala de grises
+        print("Paso 2) Se realiza la conversion de las imagenes originales a escala de grises")
+        gris =  convierteEscalaGrises(imagenFrente)
+        gris2 = convierteEscalaGrises(imagenArriba)
+        
+        cv2.imshow("Imagen de frente en escala de grises", gris) 
+        cv2.imshow("Imagen de arriba en escala de grises", gris2)
+        
+        cv2.waitKey(0)
+        
+        #binariza la imagen con umbral minimo y maximo
+        print("""Paso 3) Se binariza la imagen en escala de grises utilizando umbrales: todos los pixeles que esten por encima del valor 
+        240 se convierten en blanco y el resto en negro""")
+        ret,thresh = binarizaImagen(gris, 244, 255, 0)
+        ret2,thresh2 = binarizaImagen(gris2, 244, 255, 0)
+        
+        #muestra mangoElipse1s binarizadas
+        cv2.imshow("Imagen de frente binarizada", thresh) 
+        cv2.imshow("Imagen de arriba binarizada", thresh2)
+        
+        cv2.waitKey(0)
+
+        
+        #Aplicamos Canny para la deteccion de los bordes 
+        print("""Paso 4) Se le aplica el metodo de Canny para obtener los contornos. Este metodo inicialmente aplica un filtro 
+        gaussiano para suavizar la imagen y se obtiene la imagen gradiente, a partir de esta se evalua que pixeles son bordes y cuales no""")
+        canny = detectaBordes(thresh, 0, 255)
+        canny2 = detectaBordes(thresh2, 0, 255)
+        
+        #mostramos las mangoElipse1s aplicadas con Canny
+        cv2.imshow("Bordes de la imagen de frente", canny)
+        cv2.imshow("Bordes de la imagen cenital", canny2) 
+        
+        cv2.waitKey(0)
+        #Buscamos los posibles contornos , ya que , que sea un borde no quiere
+        #decir que sea un contorno
+        print("""Paso 5) Se buscan los posibles contornos y se dibujan. Este paso es necesario ya que un borde no es igual que un contorno. 
+        Un contorno es un conjunto de pixeles que comienzan y acaban en el mismo punto""")
+        (contornos,_) = buscaContornos(canny)
+        (contornos2,_) = buscaContornos(canny2)
+        
+        #Dibujamos contornos 
+        dibujaContornos(imagenFrente, contornos, -1, (0,0,255), 2)
+        dibujaContornos(imagenArriba, contornos2, -1, (0,0,255), 2)
+        
+        #mostramos los contornos de cada imagen
+        cv2.imshow("Contornos dibujados de la imagen de frente", imagenFrente)
+        cv2.imshow("Contornos dibujados de la imagen cenital", imagenArriba)
+        
+        cv2.waitKey(0)
+        
+        #se calcula la elipse y se dibuja
+        print("""Paso 6) Se calcula la elipse a partir de los momentos del contorno y se dibujan""")
+        elipse1=cv2.ellipse(imagenFrente,calculaElipse(contornos, imagenFrente),(0,255,0),2)
+        cv2.imshow("Imagen frontal con la elipse dibujada",elipse1)
+        elipse2=cv2.ellipse(imagenArriba,calculaElipse(contornos2, imagenArriba),(0,255,0),2)
+        cv2.imshow("Imagen cenital con la elipse dibujado",elipse2)
+        
+        cv2.waitKey(0)
+        #CalculaElipse devuelve eje mayor y menor , y tambien (x,y)
+        print() 
+        print("Eje mayor y eje menor de la imagen frontal",calculaElipse(contornos, imagenFrente)[1])
+        print("Eje mayor y eje menor de la imagen de arriba",calculaElipse(contornos2, imagenArriba)[1])
+        print()
+        
+        #calculamos la redondez y excentricidad para luego hacer una media y detectar el tipo de fruta
+        redondez1 = redondez(contornos)
+        excentricidad1 = excentricidad(calculaElipse(contornos, imagenFrente))
+        
+        #miramos que tipo de fruta es
+        fruta = tipoDeFruta(redondez1, excentricidad1)
+        
+        #el calculo de la densidad es la media de las densidades de cada tipo de fruta correspondiente
+        #la densidad es el numero de gramos que tiene un pixel cubico de media
+        densidad = densidadFruta(fruta)
+        
+        #volumen en pixeles cubicos ( contar los pixeles que ocupa cada fruta )
+        volumen = calculoVolumenes(calculaElipse(contornos, imagenFrente)[1],calculaElipse(contornos2, imagenArriba)[1])
+        masa = volumen * densidad
+        media = redondez1 * excentricidad1
+        print("""Paso 7) Se calculan la redondez y la excentricidad para poder obtener el tipo de fruta que es""")
+        print("Redondez:",redondez1+"; Excentricidad:", excentricidad1)
+
+        print("""Paso 8) Se calcula el volumen a partir de la siguiente formula:
+         Volumen = 4*pi*Eje Mayor Imagen Frontal*Eje Menor Imagen Frontal*Eje Mayor Imagen Cenital""")
+        
+        print("""Paso 9) A partir de la fruta reconocida se escoge la densidad de la misma""")
+       
+        print("""Paso 10) Como paso final se calcula la masa a partir de los datos obtenidos en el volumen y la densidad con la siguiente formula:
+        Masa = Volumen*Densidad\n""")
+        print("****************Datos obtenidos*****************")
+        print("La fruta proporcionada es:", fruta)
+        print("La densidad es:", densidad, "gramos/pixeles cubicos")
+        print("El volumen es:", volumen, "pixeles cubicos")
+        print("La masa estimada es de:", int(masa),"gramos")
+        print("************************************************\n\n")
+        print()
+        
+        
+        aux = int(input("Selecione Opcion\n"))  
     
-    
-programa()
+r = 1000
+while(r>0):
+    programa()
 
 msvcrt.getch()

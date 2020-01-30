@@ -1,8 +1,6 @@
 import cv2
 import math
-import matplotlib.pyplot as plt
-import numpy as np
-from pylab import *
+
  
 def cambiaFondoBlanco(img):
     for x in range(len(img)):
@@ -80,8 +78,8 @@ def densidadFruta(fruta):
     return densidad
         
 # Cargamos la imagen
-img = cv2.imread("img/manzana3-frente.jpg", 1)
-img2 = cv2.imread("img/manzana3-arriba.jpg",1)
+img = cv2.imread("img/naranja2-frente.jpg", 1)
+img2 = cv2.imread("img/naranja2-arriba.jpg",1)
 img = cv2.resize(img, (800, 600))
 img2 = cv2.resize(img2, (800, 600))
 
@@ -91,20 +89,19 @@ cv2.imshow("img2", img2)
 gris =  convierteEscalaGrises(img)
 gris2 = convierteEscalaGrises(img2)
 
+cv2.imshow("gris", gris)
+cv2.imshow("gris2", gris2)
+
 ret,thresh = binarizaImagen(gris, 244, 255, 0)
 ret2,thresh2 = binarizaImagen(gris2, 244, 255, 0)
 
 cv2.imshow("thresh", thresh) 
 cv2.imshow("thresh2", thresh2)
 
-gauss = filtroGaussiano(thresh, (5,5), 0)
-gauss2 = filtroGaussiano(thresh2, (5,5), 0)
 
-cv2.imshow("suavizado", gauss)
-cv2.imshow("suavizado2", gauss2)
 
-canny = detectaBordes(gauss, 0, 255)
-canny2 = detectaBordes(gauss2, 0, 255)
+canny = detectaBordes(thresh, 0, 255)
+canny2 = detectaBordes(thresh2, 0, 255)
 
 cv2.imshow("canny", canny)
 cv2.imshow("canny2", canny2)
@@ -127,7 +124,7 @@ cnt2 = contornos2[0]
 ellipse2 = cv2.fitEllipse(cnt2)
 imagene2=cv2.ellipse(img2,ellipse2,(0,255,0),2)
 cv2.imshow("Imagen del mango con elipse2",imagene2)
-
+ 
 redondez1 = redondez(contornos)
 excentricidad1 = excentricidad(ellipse)
 fruta = tipoDeFruta(redondez1, excentricidad1)
